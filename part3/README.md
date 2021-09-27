@@ -1,4 +1,7 @@
+### IP tracker
 
+
+### Local deployment
 ```bash
 docker run -d \
     --name ip-tracker \
@@ -9,3 +12,7 @@ docker run -d \
     -v ${PWD}/.data:/var/lib/postgresql/data \
     postgres:13-alpine
 ```
+
+### Heroku deployment
+
+https://phi-ip-tracker.herokuapp.com/
