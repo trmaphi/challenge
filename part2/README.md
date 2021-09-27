@@ -18,7 +18,7 @@ Traffic statistics of chotot.com:
 
 #### Authentication and authorization component:
 
-![](./diagrams/chotot-ads.drawio.png])
+![](./diagrams/chotot-auth.drawio.png)
 - This service requires strongly consistent write/read with minium changes in schema, so PostgreSQL is good call for storing information.
 - Other than that each user will login with 3rd party client like FaceBook, Google, Payoo. So, we must store a unique identity of those inside PostgreSQL
 - Most of users will be provided OAuth2 token as format as Bearer Authentication
