@@ -13,19 +13,19 @@ Traffic statistics of chotot.com:
 
 ### Overall architecture:
 
-[[/diagrams/chotot.drawio.png]]
+![](./diagrams/chotot.drawio.png)
 ### By feature:
 
 #### Authentication and authorization component:
 
-[[/diagrams/chotot-ads.drawio.png]]
+![](./diagrams/chotot-ads.drawio.png])
 - This service requires strongly consistent write/read with minium changes in schema, so PostgreSQL is good call for storing information.
 - Other than that each user will login with 3rd party client like FaceBook, Google, Payoo. So, we must store a unique identity of those inside PostgreSQL
 - Most of users will be provided OAuth2 token as format as Bearer Authentication
 
 #### Search component
 
-[[/diagrams/chotot-search.drawio.png]]
+![](./diagrams/chotot-search.drawio.png)
 - On chotot, the most important feature is searching with keywords. I think ElasticSearch fix very well in here.
 - However should only provide minium item data for ElasticSearch unique id and text like description, keyword, etc...
 - The other fields of item should be stored in PostgreSQL read replication.
@@ -35,7 +35,7 @@ Traffic statistics of chotot.com:
 
 #### Item Mangement component
 
-[[diagrams/chotot-ads.drawio.png]]
+![](.diagrams/chotot-ads.drawio.png)
 - Ad and item uploading requires write data to be filter and image processing, so storing it índie a message quêu like AWS SQS and process them later with a cluster of docker on a region is enough.
 - The problem is you have to write the data again though Nginx Load Balancer when you want PostgreSQL write permissions
 - The async write-only docker must handle the checking size of assets too, before generate a secured URL to third party static hosting
