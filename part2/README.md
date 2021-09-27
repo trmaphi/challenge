@@ -35,7 +35,7 @@ Traffic statistics of chotot.com:
 
 #### Item Mangement component
 
-![](.diagrams/chotot-ads.drawio.png)
+![](./diagrams/chotot-ads.drawio.png)
 - Ad and item uploading requires write data to be filter and image processing, so storing it índie a message quêu like AWS SQS and process them later with a cluster of docker on a region is enough.
 - The problem is you have to write the data again though Nginx Load Balancer when you want PostgreSQL write permissions
 - The async write-only docker must handle the checking size of assets too, before generate a secured URL to third party static hosting
