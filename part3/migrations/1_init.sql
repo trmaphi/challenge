@@ -1,6 +1,6 @@
-CREATE ROLE heroku;
-ALTER ROLE heroku WITH LOGIN PASSWORD 'password' NOSUPERUSER NOCREATEDB NOCREATEROLE;
-CREATE DATABASE iptracker OWNER heroku;
-REVOKE ALL ON DATABASE iptracker FROM PUBLIC;
-GRANT CONNECT ON DATABASE iptracker TO heroku;
-GRANT SELECT, INSERT ON ALL TABLES IN SCHEMA public TO heroku;
+CREATE TABLE visits (    
+    access_time timestamp primary key,
+    ip varchar(15)
+);
+
+CREATE INDEX ip_index ON visits (ip);

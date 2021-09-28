@@ -4,7 +4,7 @@
 ### Local deployment
 ```bash
 docker run -d \
-    --name ip-tracker \
+    --name ip-tracker-database \
     -e POSTGRES_USER=admin \
     -e POSTGRES_PASSWORD=admin \
     -e PGDATA=/var/lib/postgresql/data/pgdata \

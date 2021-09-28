@@ -11,6 +11,9 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl: process.env.NODE_ENV !== "production" ? false : {
+    rejectUnauthorized: false,
+  },
 });
 
 const requestListener = function (req, resp) {
@@ -40,11 +43,15 @@ const requestListener = function (req, resp) {
 
   if (ipaddress) {
     // Asynchorously save visit
+    // Every request save into visits include one visit with multiple requests
     pool.query('INSERT INTO visits(access_time, ip) VALUES($1, $2) RETURNING *', [new Date().toISOString(), ipaddress])
       .then(res => {
-        console.log("Save ", res.rows[0])
+        console.log("Save visit: ", res.rows[0]);
       })
-      .catch(e => console.error(e.stack))
+      .catch(error => {
+        console.log("save visit error"); 
+        console.error(error);
+      })
   }
 
 
@@ -59,18 +66,22 @@ const requestListener = function (req, resp) {
             resp.end(JSON.stringify(res.rows))
           })
           .catch(error => {
+            console.log("query by rank error")
+            console.error(error)
             resp.writeHead(500);
-            resp.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+            resp.end('Sorry, check with the site admin for error: ..\n');
           })
       } else {
-        pool.query('SELECT * FROM visits ORDER BY access_time', [parsedUrl.query['top'] || 100])
+        pool.query('SELECT * FROM visits ORDER BY access_time LIMIT $1', [parsedUrl.query['top'] || 100])
           .then(res => {
             resp.writeHead(200, { 'Content-Type': 'application/json' });
-            resp.end(JSON.stringify(res.rows))
+            resp.end(JSON.stringify(res.rows));
           })
           .catch(error => {
+            console.log("query by recent error");
+            console.error(error);
             resp.writeHead(500);
-            resp.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+            resp.end('Sorry, check with the site admin for error: ..\n');
           })
       }
     }
